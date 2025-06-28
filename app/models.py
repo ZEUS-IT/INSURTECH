@@ -17,3 +17,12 @@ class Poliza(Base):
     tipo = Column(String)
     email_cliente = Column(String)
     patente = Column(String)
+class Poliza(Base):
+    __tablename__ = "polizas"
+
+    id = Column(Integer, primary_key=True, index=True)
+    aseguradora = Column(String)
+    numero = Column(String, unique=True)
+    vencimiento = Column(Date)
+    usuario_email = Column(String, ForeignKey("usuarios.email"))
+

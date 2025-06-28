@@ -17,3 +17,18 @@ class PolizaCreate(BaseModel):
     tipo: str
     email_cliente: str
     patente: str
+class PolizaCreate(BaseModel):
+    aseguradora: str
+    numero: str
+    vencimiento: str  # formato: "2025-12-31"
+
+class PolizaOut(BaseModel):
+    id: int
+    aseguradora: str
+    numero: str
+    vencimiento: str
+    usuario_email: str
+
+    class Config:
+        orm_mode = True
+

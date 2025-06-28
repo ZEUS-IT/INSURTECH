@@ -3,6 +3,9 @@ from app.database import Base, engine
 from app.auth import router as auth_router
 from app.routers import polizas
 from fastapi.middleware.cors import CORSMiddleware
+from app.routers import polizas
+app.include_router(polizas.router)
+
 
 Base.metadata.create_all(bind=engine)
 
