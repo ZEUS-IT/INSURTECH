@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app import database, models, schemas
-from jose import JWTError, jwt
+from jose import jwt, JWTError
 from datetime import datetime
 
 router = APIRouter()
@@ -23,7 +23,7 @@ def get_current_user_email(token: str):
     except JWTError:
         raise HTTPException(status_code=401, detail="Token inválido")
 
-@router.post("/polizas")
+@router.post("/polizas", response_model=schemas.PolizaOut)
 def crear_poliza(poliza: schemas.PolizaCreate, db: Session = Depends(get_db), authorization: str = Depends()):
     token = authorization.split(" ")[1] if " " in authorization else authorization
     usuario_email = get_current_user_email(token)
@@ -34,6 +34,7 @@ def crear_poliza(poliza: schemas.PolizaCreate, db: Session = Depends(get_db), au
         vencimiento=datetime.strptime(poliza.vencimiento, "%Y-%m-%d").date(),
         usuario_email=usuario_email
     )
+
     db.add(nueva)
     db.commit()
     db.refresh(nueva)
@@ -45,4 +46,5 @@ def listar_polizas(db: Session = Depends(get_db), authorization: str = Depends()
     usuario_email = get_current_user_email(token)
 
     return db.query(models.Poliza).filter(models.Poliza.usuario_email == usuario_email).all()
+
 

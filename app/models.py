@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Date, Float
+from sqlalchemy import Column, Integer, String, Date, ForeignKey
 from app.database import Base
 
 class Usuario(Base):
@@ -10,19 +10,9 @@ class Usuario(Base):
 class Poliza(Base):
     __tablename__ = "polizas"
     id = Column(Integer, primary_key=True, index=True)
-    numero = Column(String)
-    dni = Column(String)
-    fecha_vencimiento = Column(Date)
-    monto = Column(Float)
-    tipo = Column(String)
-    email_cliente = Column(String)
-    patente = Column(String)
-class Poliza(Base):
-    __tablename__ = "polizas"
-
-    id = Column(Integer, primary_key=True, index=True)
     aseguradora = Column(String)
     numero = Column(String, unique=True)
     vencimiento = Column(Date)
     usuario_email = Column(String, ForeignKey("usuarios.email"))
+
 
